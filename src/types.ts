@@ -1,4 +1,4 @@
-export type GuessResultType = {
+export type GuessType = {
   id: string;
-  guess: string;
+  text: string;
 };
