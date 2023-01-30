@@ -5,9 +5,12 @@ import { WORDS } from "../../data";
 
 import GuessResults from "../GuessResults";
 import GuessInput from "../GuessInput";
+import GameOverBanner from "../GameOverBanner";
 
-import type { GuessType } from "../../types";
+import type { GuessType, GameStatus } from "../../types";
 import { checkGuess } from "../../game-helpers";
+
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -15,6 +18,7 @@ const answer = sample(WORDS);
 console.info({ answer });
 
 function Game() {
+  const [status, setStatus] = React.useState<GameStatus>("in progress");
   const [guess, setGuess] = React.useState("");
   const [results, setResults] = useState<GuessType[]>([]);
 
@@ -30,18 +34,36 @@ function Game() {
         { id: crypto.randomUUID(), text: guess, check: checkResult },
       ];
       setResults(nextResults);
-      setGuess("");
+      // check for game over
+      if (guess === answer) {
+        setStatus("happy");
+      } else if (
+        results.length === NUM_OF_GUESSES_ALLOWED - 1 &&
+        guess !== answer
+      ) {
+        setStatus("sad");
+      } else {
+        setGuess("");
+      }
     }
   }
 
   return (
     <>
       <GuessResults results={results} setResults={setResults} />
-      <GuessInput
-        guess={guess}
-        setGuess={setGuess}
-        handleSubmit={handleSubmit}
-      />
+      {status === "in progress" ? (
+        <GuessInput
+          guess={guess}
+          setGuess={setGuess}
+          handleSubmit={handleSubmit}
+        />
+      ) : status === "happy" || status === "sad" ? (
+        <GameOverBanner
+          status={status}
+          answer={answer}
+          guessCount={results.length}
+        />
+      ) : null}
     </>
   );
 }

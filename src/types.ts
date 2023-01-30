@@ -10,3 +10,5 @@ export type GuessType = {
   text: string;
   check?: CheckType[] | null;
 };
+
+export type GameStatus = "in progress" | "happy" | "sad";
