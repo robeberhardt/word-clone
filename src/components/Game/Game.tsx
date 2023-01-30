@@ -1,9 +1,12 @@
-import React from "react";
+import React, { FormEvent, useState } from "react";
 
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
 
+import GuessResults from "../GuessResults";
 import GuessInput from "../GuessInput";
+
+import type { GuessResultType } from "../../types";
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -11,9 +14,28 @@ const answer = sample(WORDS);
 console.info({ answer });
 
 function Game() {
+  const [guess, setGuess] = React.useState("");
+  const [results, setResults] = useState<GuessResultType[]>([]);
+
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    if (guess.length < 5) {
+      window.alert("your guess must be exactly 5 letters long.");
+    } else {
+      const nextResults = [...results, { id: crypto.randomUUID(), guess }];
+      setResults(nextResults);
+      setGuess("");
+    }
+  }
+
   return (
     <>
-      <GuessInput />
+      <GuessResults results={results} setResults={setResults} />
+      <GuessInput
+        guess={guess}
+        setGuess={setGuess}
+        handleSubmit={handleSubmit}
+      />
     </>
   );
 }

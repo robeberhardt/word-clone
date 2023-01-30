@@ -1,19 +1,14 @@
-import React, { ChangeEvent, FormEvent } from "react";
+import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction } from "react";
 
-import styles from "./GuessInput.module.css";
-
-function GuessInput() {
-  const [guess, setGuess] = React.useState("");
-
-  function handleSubmit(event: FormEvent) {
-    event.preventDefault();
-    if (guess.length < 5) {
-      window.alert("your guess must be exactly 5 letters long.");
-    }
-    console.log("Guess: ", guess);
-    setGuess("");
-  }
-
+function GuessInput({
+  guess,
+  setGuess,
+  handleSubmit,
+}: {
+  guess: string;
+  setGuess: Dispatch<SetStateAction<string>>;
+  handleSubmit: (event: FormEvent) => void;
+}) {
   function handleChange(event: ChangeEvent) {
     const { value } = event.target as HTMLInputElement;
     const nextGuess = value.length > 5 ? value.slice(0, 5) : value;
