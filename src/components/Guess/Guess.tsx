@@ -5,11 +5,20 @@ import type { GuessType } from "../../types";
 function Guess({ guess }: { guess: GuessType }) {
   return (
     <>
-      {guess.text.split("").map((char, index) => (
-        <span key={`${guess.id}_${index}`} className="cell">
-          {char}
-        </span>
-      ))}
+      {guess.check
+        ? guess.check?.map((entry, index) => (
+            <span
+              key={`${guess.id}_${entry.letter}`}
+              className={`cell ${entry.status}`}
+            >
+              {entry.letter}
+            </span>
+          ))
+        : guess.text.split("").map((entry, index) => (
+            <span key={`${guess.id}_${index}`} className={`cell`}>
+              {entry}
+            </span>
+          ))}
     </>
   );
 }

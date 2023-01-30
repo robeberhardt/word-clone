@@ -1,4 +1,6 @@
-export function checkGuess(guess: string, answer: string) {
+import { CheckType, StatusType } from "./types";
+
+export function checkGuess(guess: string, answer: string): CheckType[] | null {
   if (!guess) {
     return null;
   }
@@ -9,7 +11,7 @@ export function checkGuess(guess: string, answer: string) {
   return guessChars.map((guessChar, index) => {
     const answerChar = answerChars[index];
 
-    let status;
+    let status: StatusType;
     if (guessChar === answerChar) {
       status = "correct";
     } else if (answerChars.includes(guessChar)) {

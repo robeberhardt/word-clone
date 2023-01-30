@@ -3,6 +3,8 @@ import type { GuessType } from "../../types";
 import { range } from "../../utils";
 import Guess from "../Guess";
 
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
+
 function GuessResults({
   results,
   setResults,
@@ -12,7 +14,7 @@ function GuessResults({
 }) {
   return (
     <div className="guess-results">
-      {range(0, 6).map((val) =>
+      {range(0, NUM_OF_GUESSES_ALLOWED).map((val) =>
         results[val] ? (
           <p key={results[val].id} className="guess">
             <Guess guess={results[val]} />
