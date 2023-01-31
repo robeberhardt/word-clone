@@ -28,7 +28,6 @@ function Game() {
       window.alert("your guess must be exactly 5 letters long.");
     } else {
       const checkResult = checkGuess(guess, answer);
-      console.log("check: ", checkResult);
       const nextResults = [
         ...results,
         { id: crypto.randomUUID(), text: guess, check: checkResult },
@@ -37,10 +36,7 @@ function Game() {
       // check for game over
       if (guess === answer) {
         setStatus("happy");
-      } else if (
-        results.length === NUM_OF_GUESSES_ALLOWED - 1 &&
-        guess !== answer
-      ) {
+      } else if (nextResults.length >= NUM_OF_GUESSES_ALLOWED) {
         setStatus("sad");
       } else {
         setGuess("");
