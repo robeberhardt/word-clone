@@ -24,6 +24,9 @@ function GuessInput({
           type="text"
           value={guess}
           onChange={handleChange}
+          required
+          minLength={5}
+          maxLength={5}
         ></input>
       </fieldset>
     </form>
